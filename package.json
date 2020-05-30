@@ -1,6 +1,6 @@
 {
   "name": "fetch-json-cache",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Caches fetched json. Updates when etag changes and is uses cache regardless if endpoint unreachable. Uses write-file-atomic for safe updates",
   "keywords": [
     "every",
@@ -35,7 +35,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "fs-access-compat": "^1.0.0",
+    "fs-access-compat": "^1.0.1",
     "mocha-compat": "^3.5.5",
     "prettier": "^2.0.5",
     "rimraf": "^1.0.9"

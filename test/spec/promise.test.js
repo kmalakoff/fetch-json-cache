@@ -154,7 +154,7 @@ describe('promise', function () {
     it('missing cacheDirectory', function (done) {
       try {
         var cache = new Cache(TMP_DIR);
-        assert.ok(false);
+        assert.ok(!cache);
       } catch (err) {
         assert.ok(err);
         done();

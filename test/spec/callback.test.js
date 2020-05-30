@@ -1,6 +1,6 @@
 var assert = require('assert');
 var path = require('path');
-var access = require('fs-access-compat');
+var accessSync = require('fs-access-sync-compat');
 var rimraf = require('rimraf');
 
 var Cache = require('../..');
@@ -20,10 +20,10 @@ describe('callback', function () {
         assert.ok(!err);
         assert.ok(json.length > 0);
 
-        access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-          assert.ok(!err);
-          done();
+        assert.doesNotThrow(function () {
+          accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
         });
+        done();
       });
     });
 
@@ -34,10 +34,10 @@ describe('callback', function () {
         assert.ok(!err);
         assert.ok(json.length > 0);
 
-        access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-          assert.ok(!err);
-          done();
+        assert.doesNotThrow(function () {
+          accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
         });
+        done();
       });
     });
 
@@ -52,10 +52,10 @@ describe('callback', function () {
           assert.ok(!err);
           assert.ok(json.length > 0);
 
-          access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-            assert.ok(!err);
-            done();
+          assert.doesNotThrow(function () {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
           });
+          done();
         });
       });
     });
@@ -72,10 +72,10 @@ describe('callback', function () {
           assert.ok(!err);
           assert.ok(json.length > 0);
 
-          access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-            assert.ok(!err);
-            done();
+          assert.doesNotThrow(function () {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
           });
+          done();
         });
       });
     });
@@ -97,18 +97,21 @@ describe('callback', function () {
         assert.ok(!err);
         assert.ok(json.length > 0);
 
-        access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
+        assert.doesNotThrow(function () {
+          accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+        });
+
+        // clear the cache
+        cache.clear(function (err) {
           assert.ok(!err);
 
-          // clear the cache
-          cache.clear(function (err) {
-            assert.ok(!err);
-
-            access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-              assert.ok(err);
-              done();
-            });
-          });
+          try {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+            assert.ok(false);
+          } catch (err) {
+            assert.ok(err);
+            done();
+          }
         });
       });
     });

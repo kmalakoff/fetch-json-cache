@@ -1,6 +1,6 @@
 var assert = require('assert');
 var path = require('path');
-var access = require('fs-access-compat');
+var accessSync = require('fs-access-sync-compat');
 var rimraf = require('rimraf');
 
 var Cache = require('../..');
@@ -23,10 +23,10 @@ describe('promise', function () {
         .then(function (json) {
           assert.ok(json.length > 0);
 
-          access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-            assert.ok(!err);
-            done();
+          assert.doesNotThrow(function () {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
           });
+          done();
         })
         .catch(function (err) {
           assert.ok(!err);
@@ -41,10 +41,10 @@ describe('promise', function () {
         .then(function (json) {
           assert.ok(json.length > 0);
 
-          access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-            assert.ok(!err);
-            done();
+          assert.doesNotThrow(function () {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
           });
+          done();
         })
         .catch(function (err) {
           assert.ok(!err);
@@ -64,10 +64,10 @@ describe('promise', function () {
             .then(function (json) {
               assert.ok(json.length > 0);
 
-              access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-                assert.ok(!err);
-                done();
+              assert.doesNotThrow(function () {
+                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
               });
+              done();
             })
             .catch(function (err) {
               assert.ok(!err);
@@ -91,10 +91,10 @@ describe('promise', function () {
             .then(function (json) {
               assert.ok(json.length > 0);
 
-              access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-                assert.ok(!err);
-                done();
+              assert.doesNotThrow(function () {
+                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
               });
+              done();
             })
             .catch(function (err) {
               assert.ok(!err);
@@ -127,22 +127,25 @@ describe('promise', function () {
         .then(function (json) {
           assert.ok(json.length > 0);
 
-          access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-            assert.ok(!err);
-
-            // clear the cache
-            cache
-              .clear()
-              .then(function () {
-                access(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'), function (err) {
-                  assert.ok(err);
-                  done();
-                });
-              })
-              .catch(function (err) {
-                assert.ok(!err);
-              });
+          assert.doesNotThrow(function () {
+            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
           });
+
+          // clear the cache
+          cache
+            .clear()
+            .then(function () {
+              try {
+                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+                assert.ok(false);
+              } catch (err) {
+                assert.ok(err);
+                done();
+              }
+            })
+            .catch(function (err) {
+              assert.ok(!err);
+            });
         })
         .catch(function (err) {
           assert.ok(!err);

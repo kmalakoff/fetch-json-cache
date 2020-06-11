@@ -5,7 +5,7 @@ var hash = require('./lib/hash');
 var update = require('./lib/update');
 
 function Cache(cacheDirectory, options) {
-  if (this === global) return new Cache(cacheDirectory, options);
+  if (!(this instanceof Cache)) return new Cache(cacheDirectory, options);
   if (!cacheDirectory) throw new Error('Cache needs cacheDirectory');
   this.cacheDirectory = cacheDirectory;
   this.options = typeof options === 'undefined' ? {} : options;

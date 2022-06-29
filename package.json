@@ -1,6 +1,6 @@
 {
   "name": "fetch-json-cache",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Caches fetched json. Updates when etag changes and is uses cache regardless if endpoint unreachable. Uses write-file-atomic for safe updates",
   "keywords": [
     "every",

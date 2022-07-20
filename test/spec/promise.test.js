@@ -8,8 +8,6 @@ var Cache = require('../..');
 var TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
 
 describe('promise', function () {
-  if (typeof Promise === 'undefined') return;
-
   beforeEach(function (done) {
     rimraf(TMP_DIR, done.bind(null, null));
   });

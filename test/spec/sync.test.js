@@ -3,11 +3,11 @@ var path = require('path');
 var accessSync = require('fs-access-sync-compat');
 var rimraf = require('rimraf');
 
-var Cache = require('../..');
+var Cache = require('../../lib');
 
 var TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
 
-describe('async', function () {
+describe('sync', function () {
   beforeEach(function (done) {
     rimraf(TMP_DIR, done.bind(null, null));
   });
@@ -24,7 +24,7 @@ describe('async', function () {
           accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
         });
         assert.doesNotThrow(function () {
-          var data = cache.getAsync('https://jsonplaceholder.typicode.com/users');
+          var data = cache.getSync('https://jsonplaceholder.typicode.com/users');
           assert.ok(data);
         });
 
@@ -36,7 +36,7 @@ describe('async', function () {
       var cache = new Cache(TMP_DIR);
 
       assert.doesNotThrow(function () {
-        var data = cache.getAsync('https://jsonplaceholder.typicode.com/users');
+        var data = cache.getSync('https://jsonplaceholder.typicode.com/users');
         assert.equal(data, null);
       });
     });

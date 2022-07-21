@@ -42,7 +42,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-promise": "^6.0.0",
-    "fs-access-sync-compat": "^1.0.1",
+    "fs-access-sync-compat": "^1.0.2",
     "mocha-compat": "^3.5.5",
     "prettier": "^2.7.1"
   },

@@ -20,4 +20,4 @@ jobs:
       - run: npm install node-version-use -g
       - run: npm ci
       - run: npm run lint
-      - run: nvu engines npm run test
+      - run: npm run test:engines

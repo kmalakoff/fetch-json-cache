@@ -4,6 +4,9 @@ updates:
     directory: '/'
     schedule:
       interval: daily
+    ignore:
+      - dependency-name: 'rimraf'
+      - dependency-name: 'write-file-atomic'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:

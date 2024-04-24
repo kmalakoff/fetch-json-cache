@@ -1,1 +1,1 @@
-ignores: ["depcheck"]
+ignores: ["fetch-json-cache", "depcheck", "ts-dev-stack", "@types/*"]

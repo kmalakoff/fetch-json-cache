@@ -49,7 +49,7 @@ var Cache = /*#__PURE__*/ function() {
     "use strict";
     function Cache(cacheDirectory, options) {
         _class_call_check(this, Cache);
-        if (!_instanceof(this, Cache)) return new Cache(cacheDirectory, options);
+        if (!_instanceof(this, Cache)) throw new Error('Cache needs to be called with new');
         if (!cacheDirectory) throw new Error('Cache needs cacheDirectory');
         this.cacheDirectory = cacheDirectory;
         this.options = typeof options === 'undefined' ? {} : options;

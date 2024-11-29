@@ -1,4 +1,4 @@
 {
   "upgrade": true,
-  "reject": ["rimraf", "write-file-atomic"]
+  "reject": ["write-file-atomic"]
 }

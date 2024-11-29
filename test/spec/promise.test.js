@@ -1,160 +1,142 @@
-var assert = require('assert');
-var path = require('path');
-var accessSync = require('fs-access-sync-compat');
-var rimraf = require('rimraf');
+const assert = require('assert');
+const path = require('path');
+const accessSync = require('fs-access-sync-compat');
+const rimraf2 = require('rimraf2');
 
-var Cache = require('../..');
+const Cache = require('fetch-json-cache');
 
-var TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
+const TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
 
-describe('promise', function () {
-  beforeEach(function (done) {
-    rimraf(TMP_DIR, done.bind(null, null));
+describe('promise', () => {
+  beforeEach((done) => {
+    rimraf2(TMP_DIR, { disableGlob: true }, done.bind(null, null));
   });
 
-  describe('happy path', function () {
-    it('works without new', function (done) {
-      var cache = Cache(TMP_DIR);
+  describe('happy path', () => {
+    it('get from clean', (done) => {
+      const cache = new Cache(TMP_DIR);
 
       cache
-        .get('https://jsonplaceholder.typicode.com/users')
-        .then(function (json) {
-          assert.ok(json.length > 0);
+        .get('https://registry.npmjs.org/-/package/npm/dist-tags')
+        .then((json) => {
+          assert.ok(json.latest);
 
-          assert.doesNotThrow(function () {
-            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+          assert.doesNotThrow(() => {
+            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
           });
           done();
         })
-        .catch(function (err) {
+        .catch((err) => {
           assert.ok(!err);
         });
     });
 
-    it('get from clean', function (done) {
-      var cache = new Cache(TMP_DIR);
+    it('get multiple times', (done) => {
+      const cache = new Cache(TMP_DIR);
 
       cache
-        .get('https://jsonplaceholder.typicode.com/users')
-        .then(function (json) {
-          assert.ok(json.length > 0);
-
-          assert.doesNotThrow(function () {
-            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
-          });
-          done();
-        })
-        .catch(function (err) {
-          assert.ok(!err);
-        });
-    });
-
-    it('get multiple times', function (done) {
-      var cache = new Cache(TMP_DIR);
-
-      cache
-        .get('https://jsonplaceholder.typicode.com/users')
-        .then(function (json) {
-          assert.ok(json.length > 0);
+        .get('https://registry.npmjs.org/-/package/npm/dist-tags')
+        .then((json) => {
+          assert.ok(json.latest);
 
           cache
-            .get('https://jsonplaceholder.typicode.com/users')
-            .then(function (json) {
-              assert.ok(json.length > 0);
+            .get('https://registry.npmjs.org/-/package/npm/dist-tags')
+            .then((json) => {
+              assert.ok(json.latest);
 
-              assert.doesNotThrow(function () {
-                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+              assert.doesNotThrow(() => {
+                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
               });
               done();
             })
-            .catch(function (err) {
+            .catch((err) => {
               assert.ok(!err);
             });
         })
-        .catch(function (err) {
+        .catch((err) => {
           assert.ok(!err);
         });
     });
 
-    it('get forced', function (done) {
-      var cache = new Cache(TMP_DIR);
+    it('get forced', (done) => {
+      const cache = new Cache(TMP_DIR);
 
       cache
-        .get('https://jsonplaceholder.typicode.com/users')
-        .then(function (json) {
-          assert.ok(json.length > 0);
+        .get('https://registry.npmjs.org/-/package/npm/dist-tags')
+        .then((json) => {
+          assert.ok(json.latest);
 
           cache
-            .get('https://jsonplaceholder.typicode.com/users', { force: true })
-            .then(function (json) {
-              assert.ok(json.length > 0);
+            .get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true })
+            .then((json) => {
+              assert.ok(json.latest);
 
-              assert.doesNotThrow(function () {
-                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+              assert.doesNotThrow(() => {
+                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
               });
               done();
             })
-            .catch(function (err) {
+            .catch((err) => {
               assert.ok(!err);
             });
         })
-        .catch(function (err) {
+        .catch((err) => {
           assert.ok(!err);
         });
     });
 
-    it('clear an empty cache', function (done) {
-      var cache = new Cache(TMP_DIR);
+    it('clear an empty cache', (done) => {
+      const cache = new Cache(TMP_DIR);
 
       // clear the cache
       cache
         .clear()
-        .then(function () {
+        .then(() => {
           done();
         })
-        .catch(function (err) {
+        .catch((err) => {
           assert.ok(!err);
         });
     });
 
-    it('clear an existing cache', function (done) {
-      var cache = new Cache(TMP_DIR);
+    it('clear an existing cache', (done) => {
+      const cache = new Cache(TMP_DIR);
 
       cache
-        .get('https://jsonplaceholder.typicode.com/users')
-        .then(function (json) {
-          assert.ok(json.length > 0);
+        .get('https://registry.npmjs.org/-/package/npm/dist-tags')
+        .then((json) => {
+          assert.ok(json.latest);
 
-          assert.doesNotThrow(function () {
-            accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+          assert.doesNotThrow(() => {
+            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
           });
 
           // clear the cache
           cache
             .clear()
-            .then(function () {
+            .then(() => {
               try {
-                accessSync(path.join(TMP_DIR, cache.options.hash('https://jsonplaceholder.typicode.com/users') + '.json'));
+                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
                 assert.ok(false);
               } catch (err) {
                 assert.ok(err);
                 done();
               }
             })
-            .catch(function (err) {
+            .catch((err) => {
               assert.ok(!err);
             });
         })
-        .catch(function (err) {
+        .catch((err) => {
           assert.ok(!err);
         });
     });
   });
 
-  describe('unhappy path', function () {
-    it('missing cacheDirectory', function (done) {
+  describe('unhappy path', () => {
+    it('missing cacheDirectory', (done) => {
       try {
-        var cache = new Cache(TMP_DIR);
+        const cache = new Cache(TMP_DIR);
         assert.ok(!cache);
       } catch (err) {
         assert.ok(err);

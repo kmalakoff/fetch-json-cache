@@ -3,9 +3,8 @@ updates:
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
     ignore:
-      - dependency-name: 'rimraf'
       - dependency-name: 'write-file-atomic'
   - package-ecosystem: 'github-actions'
     directory: '/'

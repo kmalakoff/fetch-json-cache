@@ -19,20 +19,6 @@ function _class_call_check(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _create_class(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
 function _instanceof(left, right) {
     if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
         return !!right[Symbol.hasInstance](left);
@@ -55,49 +41,39 @@ var Cache = /*#__PURE__*/ function() {
         this.options = typeof options === 'undefined' ? {} : options;
         if (!this.options.hash) this.options.hash = _hash.default;
     }
-    _create_class(Cache, [
-        {
-            key: "get",
-            value: function get(endpoint, options, callback) {
-                var _this = this;
-                if (typeof options === 'function') {
-                    callback = options;
-                    options = null;
-                }
-                options = options || {};
-                if (typeof callback === 'function') return options.force ? _update.default.call(this, endpoint, callback) : _get.default.call(this, endpoint, callback);
-                return new Promise(function(resolve, reject) {
-                    _this.get(endpoint, options, function(err, json) {
-                        err ? reject(err) : resolve(json);
-                    });
-                });
-            }
-        },
-        {
-            key: "getSync",
-            value: function getSync(endpoint, _options) {
-                // TODO: add async fetching
-                return _getSync.default.call(this, endpoint);
-            }
-        },
-        {
-            key: "clear",
-            value: function clear(callback) {
-                var _this = this;
-                if (typeof callback === 'function') return (0, _rimraf2.default)(this.cacheDirectory, {
-                    disableGlob: true
-                }, function(_err) {
-                    _err = null; // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
-                    callback();
-                });
-                return new Promise(function(resolve, reject) {
-                    _this.clear(function(err, json) {
-                        err ? reject(err) : resolve(json);
-                    });
-                });
-            }
+    var _proto = Cache.prototype;
+    _proto.get = function get(endpoint, options, callback) {
+        var _this = this;
+        if (typeof options === 'function') {
+            callback = options;
+            options = null;
         }
-    ]);
+        options = options || {};
+        if (typeof callback === 'function') return options.force ? _update.default.call(this, endpoint, callback) : _get.default.call(this, endpoint, callback);
+        return new Promise(function(resolve, reject) {
+            _this.get(endpoint, options, function(err, json) {
+                err ? reject(err) : resolve(json);
+            });
+        });
+    };
+    _proto.getSync = function getSync(endpoint, _options) {
+        // TODO: add async fetching
+        return _getSync.default.call(this, endpoint);
+    };
+    _proto.clear = function clear(callback) {
+        var _this = this;
+        if (typeof callback === 'function') return (0, _rimraf2.default)(this.cacheDirectory, {
+            disableGlob: true
+        }, function(_err) {
+            _err = null; // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
+            callback();
+        });
+        return new Promise(function(resolve, reject) {
+            _this.clear(function(err, json) {
+                err ? reject(err) : resolve(json);
+            });
+        });
+    };
     return Cache;
 }();
-/* CJS INTEROP */ if (exports.__esModule && exports.default) { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) exports.default[key] = exports[key]; module.exports = exports.default; }
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

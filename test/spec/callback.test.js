@@ -17,7 +17,7 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         assert.doesNotThrow(() => {
@@ -31,11 +31,11 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
           assert.ok(json.latest);
 
           assert.doesNotThrow(() => {
@@ -50,12 +50,12 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         // get with forced update
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
           assert.ok(json.latest);
 
           assert.doesNotThrow(() => {
@@ -71,7 +71,7 @@ describe('callback', () => {
 
       // clear the cache
       cache.clear((err) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         done();
       });
     });
@@ -80,7 +80,7 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         assert.doesNotThrow(() => {
@@ -89,7 +89,7 @@ describe('callback', () => {
 
         // clear the cache
         cache.clear((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
 
           try {
             accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));

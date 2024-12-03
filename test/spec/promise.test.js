@@ -27,7 +27,7 @@ describe('promise', () => {
           done();
         })
         .catch((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
         });
     });
 
@@ -50,11 +50,11 @@ describe('promise', () => {
               done();
             })
             .catch((err) => {
-              assert.ok(!err);
+              assert.ok(!err, err ? err.message : '');
             });
         })
         .catch((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
         });
     });
 
@@ -77,11 +77,11 @@ describe('promise', () => {
               done();
             })
             .catch((err) => {
-              assert.ok(!err);
+              assert.ok(!err, err ? err.message : '');
             });
         })
         .catch((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
         });
     });
 
@@ -95,7 +95,7 @@ describe('promise', () => {
           done();
         })
         .catch((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
         });
     });
 
@@ -124,11 +124,11 @@ describe('promise', () => {
               }
             })
             .catch((err) => {
-              assert.ok(!err);
+              assert.ok(!err, err ? err.message : '');
             });
         })
         .catch((err) => {
-          assert.ok(!err);
+          assert.ok(!err, err ? err.message : '');
         });
     });
   });

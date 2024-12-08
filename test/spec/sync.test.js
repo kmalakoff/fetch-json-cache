@@ -17,7 +17,7 @@ describe('sync', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         assert.doesNotThrow(() => {

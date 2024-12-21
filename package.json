@@ -1,6 +1,6 @@
 {
   "name": "fetch-json-cache",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Caches fetched json. Updates when etag changes and is uses cache regardless if endpoint unreachable. Uses write-file-atomic for safe updates",
   "keywords": [
     "every",
@@ -40,15 +40,15 @@
   },
   "dependencies": {
     "core-js": "^3.39.0",
-    "get-remote": "^1.0.2",
-    "mkpath": "^1.0.0",
+    "get-remote": "^1.2.2",
+    "mkdirp-classic": "^0.5.3",
     "rimraf2": "^2.8.2",
     "write-file-atomic": "^1.3.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.2",
+    "@types/node": "^14.18.63",
     "depcheck": "^1.4.7",
     "fs-access-sync-compat": "^1.0.2",
     "ts-dev-stack": "^1.4.0"

@@ -1,10 +1,13 @@
-const assert = require('assert');
-const path = require('path');
-const accessSync = require('fs-access-sync-compat');
-const rimraf2 = require('rimraf2');
+import assert from 'assert';
+import path from 'path';
+import url from 'url';
+import accessSync from 'fs-access-sync-compat';
+import rimraf2 from 'rimraf2';
 
-const Cache = require('fetch-json-cache');
+// @ts-ignore
+import Cache from 'fetch-json-cache';
 
+const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
 
 describe('sync', () => {
@@ -17,7 +20,7 @@ describe('sync', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err);
+        assert.ok(!err, err ? err.message : '');
         assert.ok(json.latest);
 
         assert.doesNotThrow(() => {

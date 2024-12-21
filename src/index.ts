@@ -1,21 +1,28 @@
 import './polyfills.cjs';
 import rimraf2 from 'rimraf2';
 
-import get from './get';
-import getSync from './getSync';
-import hash from './hash';
-import update from './update';
+import get from './get.js';
+import getSync from './getSync.js';
+import hash from './hash.js';
+import update from './update.js';
+
+export interface CacheOptions {
+  hash?: (string: string) => string;
+}
 
 export default class Cache {
-  constructor(cacheDirectory, options) {
+  cacheDirectory: string;
+  options: CacheOptions;
+
+  constructor(cacheDirectory, options: CacheOptions = {}) {
     if (!(this instanceof Cache)) throw new Error('Cache needs to be called with new');
     if (!cacheDirectory) throw new Error('Cache needs cacheDirectory');
     this.cacheDirectory = cacheDirectory;
-    this.options = typeof options === 'undefined' ? {} : options;
+    this.options = options;
     if (!this.options.hash) this.options.hash = hash;
   }
 
-  get(endpoint, options, callback) {
+  get(endpoint: string, options, callback) {
     if (typeof options === 'function') {
       callback = options;
       options = null;

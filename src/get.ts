@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const get = require('get-remote');
+import fs from 'fs';
+import path from 'path';
+import get from 'get-remote';
 
-const update = require('./update');
+import update from './update.js';
 
-module.exports = function getCache(endpoint, callback) {
+export default function getCache(endpoint, callback) {
   const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
   fs.readFile(fullPath, (err, contents) => {
     // doesn't exist so create
@@ -29,4 +29,4 @@ module.exports = function getCache(endpoint, callback) {
       });
     }
   });
-};
+}

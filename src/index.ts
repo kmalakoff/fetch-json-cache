@@ -10,11 +10,17 @@ export interface CacheOptions {
   hash?: (string: string) => string;
 }
 
+export interface GetOptions {
+  force?: boolean;
+}
+export type GetCallback = (error?: Error, json?: object) => void;
+export type ClearCallback = (error?: Error) => void;
+
 export default class Cache {
   cacheDirectory: string;
   options: CacheOptions;
 
-  constructor(cacheDirectory, options: CacheOptions = {}) {
+  constructor(cacheDirectory: string, options: CacheOptions = {}) {
     if (!(this instanceof Cache)) throw new Error('Cache needs to be called with new');
     if (!cacheDirectory) throw new Error('Cache needs cacheDirectory');
     this.cacheDirectory = cacheDirectory;
@@ -22,14 +28,14 @@ export default class Cache {
     if (!this.options.hash) this.options.hash = hash;
   }
 
-  get(endpoint: string, options, callback) {
+  get(endpoint: string, options?: GetOptions | GetCallback, callback?: GetCallback): undefined | Promise<object | null> {
     if (typeof options === 'function') {
-      callback = options;
+      callback = options as GetCallback;
       options = null;
     }
     options = options || {};
 
-    if (typeof callback === 'function') return options.force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
+    if (typeof callback === 'function') return (options as GetOptions).force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
     return new Promise((resolve, reject) => {
       this.get(endpoint, options, (err, json) => {
         err ? reject(err) : resolve(json);
@@ -37,20 +43,20 @@ export default class Cache {
     });
   }
 
-  getSync(endpoint, _options) {
+  getSync(endpoint: string): object | null {
     // TODO: add async fetching
     return getSync.call(this, endpoint);
   }
 
-  clear(callback) {
+  clear(callback?: ClearCallback): undefined | Promise<undefined> {
     if (typeof callback === 'function')
       return rimraf2(this.cacheDirectory, { disableGlob: true }, (_err) => {
         _err = null; // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
         callback();
       });
     return new Promise((resolve, reject) => {
-      this.clear((err, json) => {
-        err ? reject(err) : resolve(json);
+      this.clear((err) => {
+        err ? reject(err) : resolve(undefined);
       });
     });
   }

@@ -10,6 +10,10 @@ import Cache from 'fetch-json-cache';
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
 
+interface DistTagsJSON {
+  latest: string;
+}
+
 describe('sync', () => {
   beforeEach((done) => {
     rimraf2(TMP_DIR, { disableGlob: true }, done.bind(null, null));
@@ -21,7 +25,7 @@ describe('sync', () => {
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         assert.ok(!err, err ? err.message : '');
-        assert.ok(json.latest);
+        assert.ok((json as DistTagsJSON).latest);
 
         assert.doesNotThrow(() => {
           accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));

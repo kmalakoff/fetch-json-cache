@@ -1,12 +1,12 @@
 import path from 'path';
 import get from 'get-remote';
-import mkpath from 'mkpath';
+import mkdirp from 'mkdirp-classic';
 import writeFile from 'write-file-atomic';
 
 export default function update(endpoint, callback) {
   const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
 
-  mkpath(this.cacheDirectory, (err) => {
+  mkdirp(this.cacheDirectory, (err) => {
     if (err && err.code !== 'EEXIST') return callback(err);
 
     get(endpoint).json((err, res) => {

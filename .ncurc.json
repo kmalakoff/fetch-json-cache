@@ -1,4 +1,4 @@
 {
   "upgrade": true,
-  "reject": ["write-file-atomic"]
+  "reject": ["@types/node","write-file-atomic"]
 }

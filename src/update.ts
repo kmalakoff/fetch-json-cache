@@ -1,9 +1,9 @@
-const path = require('path');
-const get = require('get-remote');
-const mkpath = require('mkpath');
-const writeFile = require('write-file-atomic');
+import path from 'path';
+import get from 'get-remote';
+import mkpath from 'mkpath';
+import writeFile from 'write-file-atomic';
 
-module.exports = function update(endpoint, callback) {
+export default function update(endpoint, callback) {
   const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
 
   mkpath(this.cacheDirectory, (err) => {
@@ -18,4 +18,4 @@ module.exports = function update(endpoint, callback) {
       });
     });
   });
-};
+}

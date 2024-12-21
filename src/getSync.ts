@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = function getCacheAsync(endpoint) {
+export default function getCacheAsync(endpoint) {
   const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
   try {
     const contents = fs.readFileSync(fullPath, 'utf8');
@@ -10,4 +10,4 @@ module.exports = function getCacheAsync(endpoint) {
   } catch (_err) {
     return null;
   }
-};
+}

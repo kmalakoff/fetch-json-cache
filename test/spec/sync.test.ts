@@ -15,9 +15,7 @@ interface DistTagsJSON {
 }
 
 describe('sync', () => {
-  beforeEach((done) => {
-    rimraf2(TMP_DIR, { disableGlob: true }, done.bind(null, null));
-  });
+  beforeEach((cb) => rimraf2(TMP_DIR, { disableGlob: true }, cb.bind(null, null)));
 
   describe('happy path', () => {
     it('get from clean', (done) => {

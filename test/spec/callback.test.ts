@@ -1,7 +1,7 @@
 import assert from 'assert';
 import path from 'path';
 import url from 'url';
-import accessSync from 'fs-access-sync-compat';
+import existsSync from 'fs-exists-sync';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
@@ -24,10 +24,7 @@ describe('callback', () => {
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         assert.ok(!err, err ? err.message : '');
         assert.ok((json as DistTagsJSON).latest);
-
-        assert.doesNotThrow(() => {
-          accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-        });
+        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
         done();
       });
     });
@@ -42,10 +39,7 @@ describe('callback', () => {
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
           assert.ok(!err, err ? err.message : '');
           assert.ok((json as DistTagsJSON).latest);
-
-          assert.doesNotThrow(() => {
-            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-          });
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
       });
@@ -62,10 +56,7 @@ describe('callback', () => {
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
           assert.ok(!err, err ? err.message : '');
           assert.ok((json as DistTagsJSON).latest);
-
-          assert.doesNotThrow(() => {
-            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-          });
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
       });
@@ -87,22 +78,13 @@ describe('callback', () => {
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         assert.ok(!err, err ? err.message : '');
         assert.ok((json as DistTagsJSON).latest);
-
-        assert.doesNotThrow(() => {
-          accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-        });
+        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
         // clear the cache
         cache.clear((err) => {
           assert.ok(!err, err ? err.message : '');
-
-          try {
-            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-            assert.ok(false);
-          } catch (err) {
-            assert.ok(err);
-            done();
-          }
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
+          done();
         });
       });
     });

@@ -1,7 +1,9 @@
 import assert from 'assert';
 import path from 'path';
 import url from 'url';
-import accessSync from 'fs-access-sync-compat';
+import existsSync from 'fs-exists-sync';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import Promise from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
@@ -15,6 +17,18 @@ interface DistTagsJSON {
 }
 
 describe('promise', () => {
+  (() => {
+    // patch and restore promise
+    let rootPromise: Promise;
+    before(() => {
+      rootPromise = global.Promise;
+      global.Promise = Promise;
+    });
+    after(() => {
+      global.Promise = rootPromise;
+    });
+  })();
+
   beforeEach((cb) => rimraf2(TMP_DIR, { disableGlob: true }, cb.bind(null, null)));
 
   describe('happy path', () => {
@@ -25,10 +39,7 @@ describe('promise', () => {
         .get('https://registry.npmjs.org/-/package/npm/dist-tags')
         .then((json) => {
           assert.ok((json as DistTagsJSON).latest);
-
-          assert.doesNotThrow(() => {
-            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-          });
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         })
         .catch((err) => {
@@ -48,10 +59,8 @@ describe('promise', () => {
             .get('https://registry.npmjs.org/-/package/npm/dist-tags')
             .then((json) => {
               assert.ok((json as DistTagsJSON).latest);
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
-              assert.doesNotThrow(() => {
-                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-              });
               done();
             })
             .catch((err) => {
@@ -75,10 +84,7 @@ describe('promise', () => {
             .get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true })
             .then((json) => {
               assert.ok((json as DistTagsJSON).latest);
-
-              assert.doesNotThrow(() => {
-                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-              });
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
               done();
             })
             .catch((err) => {
@@ -111,22 +117,14 @@ describe('promise', () => {
         .get('https://registry.npmjs.org/-/package/npm/dist-tags')
         .then((json) => {
           assert.ok((json as DistTagsJSON).latest);
-
-          assert.doesNotThrow(() => {
-            accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-          });
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
           // clear the cache
           cache
             .clear()
             .then(() => {
-              try {
-                accessSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`));
-                assert.ok(false);
-              } catch (err) {
-                assert.ok(err);
-                done();
-              }
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
+              done();
             })
             .catch((err) => {
               assert.ok(!err, err ? err.message : '');

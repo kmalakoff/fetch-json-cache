@@ -13,7 +13,7 @@ interface GetHeaders {
 }
 
 export default function getCache(endpoint, callback) {
-  const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
+  const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
   fs.readFile(fullPath, (err, contents) => {
     // doesn't exist so create
     if (err) {

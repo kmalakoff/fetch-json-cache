@@ -64,7 +64,6 @@ describe('callback', () => {
 
     it('clear an empty cache', (done) => {
       const cache = new Cache(TMP_DIR);
-
       // clear the cache
       cache.clear((err) => {
         assert.ok(!err, err ? err.message : '');
@@ -91,7 +90,7 @@ describe('callback', () => {
   });
 
   describe('unhappy path', () => {
-    it('missing cacheDirectory', (done) => {
+    it('missing cachePath', (done) => {
       try {
         const cache = new Cache(TMP_DIR);
         assert.ok(!cache);

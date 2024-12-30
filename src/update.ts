@@ -7,9 +7,9 @@ import rimraf2 from 'rimraf2';
 import tempSuffix from 'temp-suffix';
 
 export default function update(endpoint, callback) {
-  const fullPath = path.join(this.cacheDirectory, `${this.options.hash(endpoint)}.json`);
+  const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
 
-  mkdirp(this.cacheDirectory, (err) => {
+  mkdirp(this.cachePath, (err) => {
     if (err && err.code !== 'EEXIST') return callback(err);
 
     get(endpoint).json((err, res) => {

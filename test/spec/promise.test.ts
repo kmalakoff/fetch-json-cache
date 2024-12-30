@@ -137,7 +137,7 @@ describe('promise', () => {
   });
 
   describe('unhappy path', () => {
-    it('missing cacheDirectory', (done) => {
+    it('missing cachePath', (done) => {
       try {
         const cache = new Cache(TMP_DIR);
         assert.ok(!cache);

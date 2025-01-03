@@ -2,8 +2,7 @@ import assert from 'assert';
 import path from 'path';
 import url from 'url';
 import existsSync from 'fs-exists-sync';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
+import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
@@ -19,10 +18,12 @@ interface DistTagsJSON {
 describe('promise', () => {
   (() => {
     // patch and restore promise
+    // @ts-ignore
     let rootPromise: Promise;
     before(() => {
       rootPromise = global.Promise;
-      global.Promise = Promise;
+      // @ts-ignore
+      global.Promise = Pinkie;
     });
     after(() => {
       global.Promise = rootPromise;

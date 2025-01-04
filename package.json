@@ -42,7 +42,7 @@
   "dependencies": {
     "get-remote": "^1.3.2",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.4.6",
+    "queue-cb": "^1.4.7",
     "rimraf2": "^2.8.2",
     "temp-suffix": "^0.1.4"
   },

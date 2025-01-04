@@ -8,7 +8,7 @@ import rimraf2 from 'rimraf2';
 import Cache from 'fetch-json-cache';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
+const TMP_DIR = path.join(path.join(__dirname, '..', '..', '.tmp'));
 
 interface DistTagsJSON {
   latest: string;

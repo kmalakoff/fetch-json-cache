@@ -2,15 +2,14 @@ import assert from 'assert';
 import path from 'path';
 import url from 'url';
 import existsSync from 'fs-exists-sync';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
+import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
 import Cache from 'fetch-json-cache';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const TMP_DIR = path.resolve(path.join(__dirname, '..', '..', '.tmp'));
+const TMP_DIR = path.join(path.join(__dirname, '..', '..', '.tmp'));
 
 interface DistTagsJSON {
   latest: string;
@@ -19,10 +18,12 @@ interface DistTagsJSON {
 describe('promise', () => {
   (() => {
     // patch and restore promise
+    // @ts-ignore
     let rootPromise: Promise;
     before(() => {
       rootPromise = global.Promise;
-      global.Promise = Promise;
+      // @ts-ignore
+      global.Promise = Pinkie;
     });
     after(() => {
       global.Promise = rootPromise;

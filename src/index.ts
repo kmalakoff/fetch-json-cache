@@ -1,9 +1,9 @@
 import rimraf2 from 'rimraf2';
 
-import get from './get.js';
-import getSync from './getSync.js';
-import hash from './hash.js';
-import update from './update.js';
+import get from './get';
+import getSync from './getSync';
+import hash from './hash';
+import update from './update';
 
 export interface CacheOptions {
   hash?: (string: string) => string;
@@ -39,11 +39,7 @@ export default class Cache {
     }
 
     if (typeof callback === 'function') return worker.call(this, endpoint, options, callback) as undefined;
-    return new Promise((resolve, reject) =>
-      worker.call(this, endpoint, options, (err, json) => {
-        err ? reject(err) : resolve(json);
-      })
-    );
+    return new Promise((resolve, reject) => worker.call(this, endpoint, options, (err, json) => (err ? reject(err) : resolve(json))));
   }
 
   getSync(endpoint: string): object | null {

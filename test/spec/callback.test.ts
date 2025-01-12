@@ -22,7 +22,7 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         assert.ok((json as DistTagsJSON).latest);
         assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
         done();
@@ -33,11 +33,11 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         assert.ok((json as DistTagsJSON).latest);
 
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-          assert.ok(!err, err ? err.message : '');
+          if (err) return done(err);
           assert.ok((json as DistTagsJSON).latest);
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
@@ -49,12 +49,12 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         assert.ok((json as DistTagsJSON).latest);
 
         // get with forced update
         cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
-          assert.ok(!err, err ? err.message : '');
+          if (err) return done(err);
           assert.ok((json as DistTagsJSON).latest);
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
@@ -66,7 +66,7 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
       // clear the cache
       cache.clear((err) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         done();
       });
     });
@@ -75,13 +75,13 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         assert.ok((json as DistTagsJSON).latest);
         assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
         // clear the cache
         cache.clear((err) => {
-          assert.ok(!err, err ? err.message : '');
+          if (err) return done(err);
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
           done();
         });

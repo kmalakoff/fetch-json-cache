@@ -14,19 +14,16 @@ var cache = new Cache('/path/to/cache');
 
 // get
 cache.get('https://jsonplaceholder.typicode.com/users', function(err, json) {
-  assert.ok(!err, err ? err.message : '');
   assert.ok(json.length > 0);
 })
 
 // get with forced update
 cache.get('https://jsonplaceholder.typicode.com/users', { force: true }, function(err, json) {
-  assert.ok(!err, err ? err.message : '');
   assert.ok(json.length > 0);
 })
 
 // clear the cache
 cache.clear(function(err) {
-  assert.ok(!err, err ? err.message : '');
 })
 
 //////////////

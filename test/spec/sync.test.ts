@@ -22,7 +22,7 @@ describe('sync', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        assert.ok(!err, err ? err.message : '');
+        if (err) return done(err);
         assert.ok((json as DistTagsJSON).latest);
         assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
         assert.doesNotThrow(() => {

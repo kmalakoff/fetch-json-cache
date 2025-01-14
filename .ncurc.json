@@ -1,4 +1,4 @@
 {
   "upgrade": true,
-  "reject": ["@types/*", "biomejs/*", "write-file-atomic"]
+  "reject": ["@types/*", "biomejs/*", "assert", "write-file-atomic"]
 }

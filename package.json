@@ -37,16 +37,15 @@
   "dependencies": {
     "get-remote": "^1.3.14",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.4.12",
+    "queue-cb": "^1.4.13",
     "rimraf2": "^2.8.2",
-    "temp-suffix": "^0.1.9"
+    "temp-suffix": "^0.1.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.5",
-    "fs-exists-sync": "^0.1.0",
-    "pinkie-promise": "^2.0.1"
+    "@types/mocha": "*",
+    "@types/node": "*",
+    "fs-exists-sync": "*",
+    "pinkie-promise": "*"
   },
   "engines": {
     "node": ">=0.8"

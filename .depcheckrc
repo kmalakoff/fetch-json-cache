@@ -1,1 +1,1 @@
-ignores: ["@types/*", "fetch-json-cache", "depcheck", "@biomejs/*"]
+ignores: ["fetch-json-cache"]

@@ -44,7 +44,7 @@ describe('promise', () => {
           done();
         })
         .catch((err) => {
-          if (err) return done(err);
+          if (err) return done(err.message);
         });
     });
 
@@ -65,11 +65,11 @@ describe('promise', () => {
               done();
             })
             .catch((err) => {
-              if (err) return done(err);
+              if (err) return done(err.message);
             });
         })
         .catch((err) => {
-          if (err) return done(err);
+          if (err) return done(err.message);
         });
     });
 
@@ -89,11 +89,11 @@ describe('promise', () => {
               done();
             })
             .catch((err) => {
-              if (err) return done(err);
+              if (err) return done(err.message);
             });
         })
         .catch((err) => {
-          if (err) return done(err);
+          if (err) return done(err.message);
         });
     });
 
@@ -107,7 +107,7 @@ describe('promise', () => {
           done();
         })
         .catch((err) => {
-          if (err) return done(err);
+          if (err) return done(err.message);
         });
     });
 
@@ -128,11 +128,11 @@ describe('promise', () => {
               done();
             })
             .catch((err) => {
-              if (err) return done(err);
+              if (err) return done(err.message);
             });
         })
         .catch((err) => {
-          if (err) return done(err);
+          if (err) return done(err.message);
         });
     });
   });

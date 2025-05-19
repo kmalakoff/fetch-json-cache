@@ -1,9 +1,9 @@
 import rimraf2 from 'rimraf2';
 
-import get from './get';
-import getSync from './getSync';
-import hash from './hash';
-import update from './update';
+import get from './get.js';
+import getSync from './getSync.js';
+import hash from './hash.js';
+import update from './update.js';
 
 export interface CacheOptions {
   hash?: (string: string) => string;

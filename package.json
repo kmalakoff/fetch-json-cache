@@ -36,9 +36,9 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "get-remote": "^1.4.8",
+    "get-remote": "^1.4.10",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.5.0",
+    "queue-cb": "^1.5.1",
     "rimraf2": "^2.8.2",
     "temp-suffix": "^0.1.18"
   },

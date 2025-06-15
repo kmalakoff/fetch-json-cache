@@ -1,6 +1,6 @@
 import assert from 'assert';
 // @ts-ignore
-import Cache, { type Options } from 'fetch-json-cache';
+import Cache from 'fetch-json-cache';
 
 describe('exports .ts', () => {
   it('can create', () => {

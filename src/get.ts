@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import get from 'get-remote';
+import path from 'path';
 
 import update from './update.js';
 

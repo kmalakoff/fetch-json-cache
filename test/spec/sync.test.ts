@@ -1,11 +1,10 @@
 import assert from 'assert';
-import path from 'path';
-import url from 'url';
-import existsSync from 'fs-exists-sync';
-import rimraf2 from 'rimraf2';
-
 // @ts-ignore
 import Cache from 'fetch-json-cache';
+import existsSync from 'fs-exists-sync';
+import path from 'path';
+import rimraf2 from 'rimraf2';
+import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const TMP_DIR = path.join(path.join(__dirname, '..', '..', '.tmp'));

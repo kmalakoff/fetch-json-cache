@@ -38,9 +38,9 @@
   "dependencies": {
     "get-remote": "^1.4.12",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.5.2",
+    "queue-cb": "^1.5.3",
     "rimraf2": "^2.8.2",
-    "temp-suffix": "^0.1.18"
+    "temp-suffix": "^0.1.19"
   },
   "devDependencies": {
     "@types/mocha": "*",

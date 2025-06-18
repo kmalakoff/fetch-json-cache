@@ -30,13 +30,13 @@
   ],
   "scripts": {
     "build": "tsds build",
-    "format": "biome check --write --unsafe src/ test/",
+    "format": "biome check --write --unsafe",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines npm test",
     "version": "tsds version"
   },
   "dependencies": {
-    "get-remote": "^1.4.11",
+    "get-remote": "^1.4.12",
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.5.2",
     "rimraf2": "^2.8.2",

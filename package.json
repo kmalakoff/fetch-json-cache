@@ -36,11 +36,11 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "get-remote": "^1.4.13",
+    "get-remote": "^1.4.14",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.5.3",
+    "queue-cb": "^1.5.4",
     "rimraf2": "^2.8.2",
-    "temp-suffix": "^0.1.19"
+    "temp-suffix": "^0.1.20"
   },
   "devDependencies": {
     "@types/mocha": "*",

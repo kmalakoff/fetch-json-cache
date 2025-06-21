@@ -12,7 +12,9 @@ interface GetHeaders {
   etag?: string;
 }
 
-export default function getCache(endpoint, callback) {
+import type { GetCallback } from './types.ts';
+
+export default function getCache(endpoint: string, callback: GetCallback): undefined {
   const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
   fs.readFile(fullPath, (err, contents) => {
     // doesn't exist so create

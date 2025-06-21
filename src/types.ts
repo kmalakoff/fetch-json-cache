@@ -1,6 +1,6 @@
-export interface Record {
+export interface Record<T> {
   headers: object;
-  body: JSON;
+  body: T;
 }
 
 export interface CacheOptions {
@@ -10,6 +10,6 @@ export interface CacheOptions {
 export interface GetOptions {
   force?: boolean;
 }
-export type GetCallback = (error?: Error, json?: JSON) => undefined;
+export type GetCallback<T> = (error?: Error, result?: T) => undefined;
 export type ClearCallback = (error?: Error) => undefined;
-export type UpdateCallback = (error?: Error, json?: JSON) => undefined;
+export type UpdateCallback<T> = (error?: Error, result?: T) => undefined;

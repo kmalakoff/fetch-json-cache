@@ -6,7 +6,9 @@ import Queue from 'queue-cb';
 import rimraf2 from 'rimraf2';
 import tempSuffix from 'temp-suffix';
 
-export default function update(endpoint, callback) {
+import type { Record, UpdateCallback } from './types.ts';
+
+export default function update(endpoint: string, callback: UpdateCallback): undefined {
   const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
 
   mkdirp(this.cachePath, (err) => {
@@ -14,7 +16,7 @@ export default function update(endpoint, callback) {
 
     get(endpoint).json((err, res) => {
       if (err) return callback(err);
-      const record = { headers: res.headers, body: res.body };
+      const record = { headers: res.headers, body: res.body } as Record;
       const tempFile = `${fullPath}-${tempSuffix()}`;
 
       const queue = new Queue(1);

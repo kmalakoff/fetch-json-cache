@@ -2,7 +2,7 @@ import fs from 'fs';
 import get from 'get-remote';
 import path from 'path';
 
-import update from './update.js';
+import update from './update.ts';
 
 interface GetError {
   code?: string;

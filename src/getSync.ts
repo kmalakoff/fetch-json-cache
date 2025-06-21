@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export default function getCacheAsync(endpoint: string): JSON {
+export default function getCacheAsync<T>(endpoint: string): T {
   const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
   try {
     const contents = fs.readFileSync(fullPath, 'utf8');

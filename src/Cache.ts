@@ -6,7 +6,7 @@ import hash from './hash.ts';
 import type { CacheOptions, ClearCallback, GetCallback, GetOptions } from './types.ts';
 import update from './update.ts';
 
-export default class Cache<T> {
+export default class Cache {
   cachePath: string;
   options: CacheOptions;
 
@@ -18,7 +18,7 @@ export default class Cache<T> {
     if (!this.options.hash) this.options.hash = hash;
   }
 
-  get(endpoint: string, options?: GetOptions | GetCallback<T>, callback?: GetCallback<T>): undefined | Promise<object | null> {
+  get<T>(endpoint: string, options?: GetOptions | GetCallback<T>, callback?: GetCallback<T>): undefined | Promise<object | null> {
     if (typeof options === 'function') {
       callback = options as GetCallback<T>;
       options = null;
@@ -33,7 +33,7 @@ export default class Cache<T> {
     return new Promise((resolve, reject) => worker.call(this, endpoint, options, (err, json) => (err ? reject(err) : resolve(json))));
   }
 
-  getSync(endpoint: string): T | null {
+  getSync<T>(endpoint: string): T | null {
     // TODO: add async fetching
     return getSync.call(this, endpoint);
   }

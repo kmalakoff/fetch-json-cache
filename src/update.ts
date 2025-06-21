@@ -8,7 +8,7 @@ import tempSuffix from 'temp-suffix';
 
 import type { Record, UpdateCallback } from './types.ts';
 
-export default function update(endpoint: string, callback: UpdateCallback): undefined {
+export default function update<T>(endpoint: string, callback: UpdateCallback<T>): undefined {
   const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
 
   mkdirp(this.cachePath, (err) => {
@@ -16,7 +16,7 @@ export default function update(endpoint: string, callback: UpdateCallback): unde
 
     get(endpoint).json((err, res) => {
       if (err) return callback(err);
-      const record = { headers: res.headers, body: res.body } as Record;
+      const record = { headers: res.headers, body: res.body } as Record<T>;
       const tempFile = `${fullPath}-${tempSuffix()}`;
 
       const queue = new Queue(1);

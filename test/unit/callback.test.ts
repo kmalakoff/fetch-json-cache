@@ -20,9 +20,12 @@ describe('callback', () => {
     it('get from clean', (done) => {
       const cache = new Cache(TMP_DIR);
 
-      cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) return done(err.message);
-        assert.ok((json as DistTagsJSON).latest);
+      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): undefined => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        assert.ok(json.latest);
         assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
         done();
       });
@@ -31,13 +34,19 @@ describe('callback', () => {
     it('get multiple times', (done) => {
       const cache = new Cache(TMP_DIR);
 
-      cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) return done(err.message);
-        assert.ok((json as DistTagsJSON).latest);
+      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        assert.ok(json.latest);
 
-        cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-          if (err) return done(err.message);
-          assert.ok((json as DistTagsJSON).latest);
+        cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
+          if (err) {
+            done(err.message);
+            return;
+          }
+          assert.ok(json.latest);
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
@@ -47,14 +56,20 @@ describe('callback', () => {
     it('get forced', (done) => {
       const cache = new Cache(TMP_DIR);
 
-      cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) return done(err.message);
-        assert.ok((json as DistTagsJSON).latest);
+      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        assert.ok(json.latest);
 
         // get with forced update
-        cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
-          if (err) return done(err.message);
-          assert.ok((json as DistTagsJSON).latest);
+        cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
+          if (err) {
+            done(err.message);
+            return;
+          }
+          assert.ok(json.latest);
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
@@ -65,7 +80,10 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
       // clear the cache
       cache.clear((err) => {
-        if (err) return done(err.message);
+        if (err) {
+          done(err.message);
+          return;
+        }
         done();
       });
     });
@@ -73,14 +91,20 @@ describe('callback', () => {
     it('clear an existing cache', (done) => {
       const cache = new Cache(TMP_DIR);
 
-      cache.get('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) return done(err.message);
-        assert.ok((json as DistTagsJSON).latest);
+      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        assert.ok(json.latest);
         assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
         // clear the cache
         cache.clear((err) => {
-          if (err) return done(err.message);
+          if (err) {
+            done(err.message);
+            return;
+          }
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
           done();
         });

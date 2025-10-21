@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-ignore
 import Cache from 'fetch-json-cache';
 import existsSync from 'fs-exists-sync';
 import path from 'path';

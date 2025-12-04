@@ -1,9 +1,9 @@
 import fs from 'fs';
+import { rm } from 'fs-remove-compat';
 import get from 'get-remote';
 import mkdirp from 'mkdirp-classic';
 import path from 'path';
 import Queue from 'queue-cb';
-import rimraf2 from 'rimraf2';
 import tempSuffix from 'temp-suffix';
 
 import type { Record, UpdateCallback } from './types.ts';
@@ -21,12 +21,12 @@ export default function update<T>(endpoint: string, callback: UpdateCallback<T>)
 
       const queue = new Queue(1);
       queue.defer(fs.writeFile.bind(null, tempFile, JSON.stringify(record), 'utf8'));
-      queue.defer((cb) => rimraf2(fullPath, { disableGlob: true }, cb.bind(null, null)));
+      queue.defer((cb) => rm(fullPath, cb.bind(null, null)));
       queue.defer(fs.rename.bind(null, tempFile, fullPath));
       queue.await((err) => {
         if (!err) return callback(null, record.body);
         // cleanup the temp file if the operation failed
-        rimraf2(tempFile, { disableGlob: true }, callback.bind(err));
+        rm(tempFile, callback.bind(err));
       });
     });
   });

@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "@biomejs/biome", "fetch-json-cache"]
+ignores: ["node-version-use", "ts-dev-stack", "fetch-json-cache"]

@@ -38,10 +38,10 @@
     "version": "tsds version"
   },
   "dependencies": {
+    "fs-remove-compat": "*",
     "get-remote": "*",
     "mkdirp-classic": "*",
     "queue-cb": "*",
-    "rimraf2": "*",
     "temp-suffix": "*"
   },
   "devDependencies": {

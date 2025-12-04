@@ -1,4 +1,4 @@
-import rimraf2 from 'rimraf2';
+import { safeRm } from 'fs-remove-compat';
 
 import get from './get.ts';
 import getSync from './getSync.ts';
@@ -41,7 +41,7 @@ export default class Cache {
   clear(callback?: ClearCallback): undefined | Promise<undefined> {
     function worker(callback) {
       // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
-      rimraf2(this.cachePath, { disableGlob: true }, callback.bind(null, null));
+      safeRm(this.cachePath, callback.bind(null, null));
     }
 
     if (typeof callback === 'function') return worker.call(this, callback);

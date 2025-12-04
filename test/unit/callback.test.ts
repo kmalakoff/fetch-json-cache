@@ -1,8 +1,8 @@
 import assert from 'assert';
 import Cache from 'fetch-json-cache';
 import existsSync from 'fs-exists-sync';
+import { safeRm } from 'fs-remove-compat';
 import path from 'path';
-import rimraf2 from 'rimraf2';
 import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
@@ -13,7 +13,7 @@ interface DistTagsJSON {
 }
 
 describe('callback', () => {
-  beforeEach(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
+  beforeEach((cb) => safeRm(TMP_DIR, cb));
 
   describe('happy path', () => {
     it('get from clean', (done) => {

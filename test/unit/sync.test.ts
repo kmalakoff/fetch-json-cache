@@ -21,7 +21,7 @@ describe('sync', () => {
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): undefined => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         assert.ok(json.latest);

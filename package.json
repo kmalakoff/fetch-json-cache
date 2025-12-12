@@ -38,11 +38,11 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "fs-remove-compat": "^0.2.1",
+    "fs-remove-compat": "^0.2.2",
     "get-remote": "^2.3.1",
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.6.1",
-    "temp-suffix": "^1.0.8"
+    "queue-cb": "^1.6.2",
+    "temp-suffix": "^1.0.9"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",

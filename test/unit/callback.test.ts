@@ -21,7 +21,7 @@ describe('callback', () => {
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): undefined => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         assert.ok(json.latest);
@@ -35,14 +35,14 @@ describe('callback', () => {
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         assert.ok(json.latest);
 
         cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           assert.ok(json.latest);
@@ -57,7 +57,7 @@ describe('callback', () => {
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         assert.ok(json.latest);
@@ -65,7 +65,7 @@ describe('callback', () => {
         // get with forced update
         cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           assert.ok(json.latest);
@@ -80,7 +80,7 @@ describe('callback', () => {
       // clear the cache
       cache.clear((err) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         done();
@@ -92,7 +92,7 @@ describe('callback', () => {
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         assert.ok(json.latest);
@@ -101,7 +101,7 @@ describe('callback', () => {
         // clear the cache
         cache.clear((err) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);

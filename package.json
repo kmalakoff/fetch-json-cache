@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "fs-remove-compat": "^0.2.2",
-    "get-remote": "^2.3.1",
+    "get-remote": "^2.3.2",
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.6.2",
     "temp-suffix": "^1.0.9"

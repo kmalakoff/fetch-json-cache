@@ -39,19 +39,19 @@
   },
   "dependencies": {
     "fs-remove-compat": "^0.2.3",
-    "get-remote": "^2.3.2",
+    "get-remote": "^2.3.3",
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.6.3",
     "temp-suffix": "^1.0.10"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.1",
+    "@types/node": "^25.0.2",
     "fs-exists-sync": "^0.1.0",
-    "node-version-use": "^2.1.5",
+    "node-version-use": "^2.1.6",
     "pinkie-promise": "^2.0.1",
     "ts-dev-stack": "^1.21.3",
-    "tsds-config": "^0.2.1"
+    "tsds-config": "^0.2.2"
   },
   "engines": {
     "node": ">=0.8"

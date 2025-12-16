@@ -38,20 +38,20 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "fs-remove-compat": "^0.2.3",
-    "get-remote": "^2.3.2",
-    "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.6.3",
+    "fs-remove-compat": "^1.0.0",
+    "get-file-compat": "^2.0.0",
+    "mkdirp-classic": "^0.5.2",
+    "queue-cb": "^1.0.0",
     "temp-suffix": "^1.0.10"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.1",
+    "@types/mocha": "*",
+    "@types/node": "*",
     "fs-exists-sync": "^0.1.0",
-    "node-version-use": "^2.1.5",
-    "pinkie-promise": "^2.0.1",
-    "ts-dev-stack": "^1.21.3",
-    "tsds-config": "^0.2.1"
+    "node-version-use": "*",
+    "pinkie-promise": "*",
+    "ts-dev-stack": "*",
+    "tsds-config": "*"
   },
   "engines": {
     "node": ">=0.8"

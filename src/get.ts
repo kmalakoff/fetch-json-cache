@@ -1,5 +1,5 @@
 import fs from 'fs';
-import get from 'get-remote';
+import { head } from 'get-file-compat';
 import path from 'path';
 
 import update from './update.ts';
@@ -26,7 +26,7 @@ export default function getCache<T>(endpoint: string, callback: GetCallback<T>):
     // check existing if etag changed and if so, recache
     else {
       const record = JSON.parse(contents.toString());
-      get(endpoint).head((err, res) => {
+      head(endpoint, (err, res) => {
         // not accessible
         if (err) {
           if ((err as GetError).code === 'ENOTFOUND' || err.message.indexOf('routines:SSL23_GET_SERVER_HELLO') >= 0) return callback(null, record.body);

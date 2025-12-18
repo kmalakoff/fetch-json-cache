@@ -8,7 +8,7 @@ import tempSuffix from 'temp-suffix';
 
 import type { Record, UpdateCallback } from './types.ts';
 
-export default function update<T>(endpoint: string, callback: UpdateCallback<T>): undefined {
+export default function update<T>(endpoint: string, callback: UpdateCallback<T>): void {
   const fullPath = path.join(this.cachePath, `${this.options.hash(endpoint)}.json`);
 
   mkdirp(this.cachePath, (err) => {

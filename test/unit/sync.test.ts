@@ -19,7 +19,7 @@ describe('sync', () => {
     it('get from clean', (done) => {
       const cache = new Cache(TMP_DIR);
 
-      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): undefined => {
+      cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): void => {
         if (err) {
           done(err);
           return;

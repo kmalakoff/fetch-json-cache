@@ -18,7 +18,10 @@ export default class Cache {
     if (!this.options.hash) this.options.hash = hash;
   }
 
-  get<T>(endpoint: string, options?: GetOptions | GetCallback<T>, callback?: GetCallback<T>): undefined | Promise<object | null> {
+  get<T>(endpoint: string, callback: GetCallback<T>): void;
+  get<T>(endpoint: string, options: GetOptions, callback: GetCallback<T>): void;
+  get<T>(endpoint: string, options?: GetOptions): Promise<T | null>;
+  get<T>(endpoint: string, options?: GetOptions | GetCallback<T>, callback?: GetCallback<T>): void | Promise<T | null> {
     if (typeof options === 'function') {
       callback = options as GetCallback<T>;
       options = null;
@@ -29,7 +32,7 @@ export default class Cache {
       (options as GetOptions).force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
     }
 
-    if (typeof callback === 'function') return worker.call(this, endpoint, options, callback) as undefined;
+    if (typeof callback === 'function') return worker.call(this, endpoint, options, callback);
     return new Promise((resolve, reject) => worker.call(this, endpoint, options, (err, json) => (err ? reject(err) : resolve(json))));
   }
 
@@ -38,7 +41,9 @@ export default class Cache {
     return getSync.call(this, endpoint);
   }
 
-  clear(callback?: ClearCallback): undefined | Promise<undefined> {
+  clear(callback: ClearCallback): void;
+  clear(): Promise<void>;
+  clear(callback?: ClearCallback): void | Promise<void> {
     function worker(callback) {
       // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
       safeRm(this.cachePath, callback.bind(null, null));
@@ -47,7 +52,7 @@ export default class Cache {
     if (typeof callback === 'function') return worker.call(this, callback);
     return new Promise((resolve, reject) =>
       worker.call(this, (err) => {
-        err ? reject(err) : resolve(undefined);
+        err ? reject(err) : resolve();
       })
     );
   }

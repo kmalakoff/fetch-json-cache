@@ -10,6 +10,6 @@ export interface CacheOptions {
 export interface GetOptions {
   force?: boolean;
 }
-export type GetCallback<T> = (error?: Error, result?: T) => undefined;
-export type ClearCallback = (error?: Error) => undefined;
-export type UpdateCallback<T> = (error?: Error, result?: T) => undefined;
+export type GetCallback<T> = (error?: Error, result?: T) => void;
+export type ClearCallback = (error?: Error) => void;
+export type UpdateCallback<T> = (error?: Error, result?: T) => void;

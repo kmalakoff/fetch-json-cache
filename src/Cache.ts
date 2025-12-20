@@ -22,14 +22,11 @@ export default class Cache {
   get<T>(endpoint: string, options: GetOptions, callback: GetCallback<T>): void;
   get<T>(endpoint: string, options?: GetOptions): Promise<T | null>;
   get<T>(endpoint: string, options?: GetOptions | GetCallback<T>, callback?: GetCallback<T>): void | Promise<T | null> {
-    if (typeof options === 'function') {
-      callback = options as GetCallback<T>;
-      options = null;
-    }
-    options = options || {};
+    callback = typeof options === 'function' ? options : callback;
+    options = typeof options === 'function' ? {} : ((options || {}) as GetOptions);
 
     function worker(endpoint, options, callback) {
-      (options as GetOptions).force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
+      options.force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
     }
 
     if (typeof callback === 'function') return worker.call(this, endpoint, options, callback);
@@ -37,7 +34,6 @@ export default class Cache {
   }
 
   getSync<T>(endpoint: string): T | null {
-    // TODO: add async fetching
     return getSync.call(this, endpoint);
   }
 

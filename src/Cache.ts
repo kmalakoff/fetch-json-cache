@@ -46,10 +46,6 @@ export default class Cache {
     }
 
     if (typeof callback === 'function') return worker.call(this, callback);
-    return new Promise((resolve, reject) =>
-      worker.call(this, (err) => {
-        err ? reject(err) : resolve();
-      })
-    );
+    return new Promise((resolve, reject) => worker.call(this, (err) => (err ? reject(err) : resolve())));
   }
 }

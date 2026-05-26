@@ -12,7 +12,7 @@ export default function update<T>(this: CacheContext, endpoint: string, callback
   const fullPath = path.join(this.cachePath, `${this.options.hash?.(endpoint)}.json`);
 
   mkdirp(this.cachePath, (err) => {
-    if (err && (err as NodeJS.ErrnoException).code !== 'EEXIST') return callback(err ?? undefined);
+    if (err && (err as NodeJS.ErrnoException).code !== 'EEXIST') return callback(err);
 
     getContent(endpoint, 'utf8', (err, res) => {
       if (err) return callback(err);
@@ -23,12 +23,12 @@ export default function update<T>(this: CacheContext, endpoint: string, callback
         const tempFile = `${fullPath}-${tempSuffix()}`;
 
         const queue = new Queue(1);
-        queue.defer((cb) => fs.writeFile(tempFile, JSON.stringify(record), 'utf8', (err) => cb(err ?? undefined)));
-        queue.defer((cb) => rm(fullPath, { force: true }, (err?: NodeJS.ErrnoException | null) => cb(err ?? undefined)));
-        queue.defer((cb) => fs.rename(tempFile, fullPath, (err) => cb(err ?? undefined)));
+        queue.defer((cb) => fs.writeFile(tempFile, JSON.stringify(record), 'utf8', (err) => cb(err)));
+        queue.defer((cb) => rm(fullPath, { force: true }, (err?: NodeJS.ErrnoException | null) => cb(err)));
+        queue.defer((cb) => fs.rename(tempFile, fullPath, (err) => cb(err)));
         queue.await((err) => {
           if (!err) return callback(undefined, record.body);
-          rm(tempFile, () => callback(err ?? undefined));
+          rm(tempFile, () => callback(err));
         });
       } catch (err) {
         return callback(err as Error);

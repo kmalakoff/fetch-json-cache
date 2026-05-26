@@ -20,12 +20,9 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json): void => {
-        if (err) {
-          done(err);
-          return;
-        }
-        assert.ok(json.latest);
-        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+        if (err) return done(err);
+        assert.ok(json?.latest);
+        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
         done();
       });
     });
@@ -34,19 +31,14 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        assert.ok(json.latest);
+        if (err) return done(err);
+        assert.ok(json?.latest);
 
         cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-          if (err) {
-            done(err);
-            return;
-          }
-          assert.ok(json.latest);
-          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+          if (err) return done(err);
+
+          assert.ok(json?.latest);
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
       });
@@ -56,20 +48,15 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        assert.ok(json.latest);
+        if (err) return done(err);
+        assert.ok(json?.latest);
 
         // get with forced update
         cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true }, (err, json) => {
-          if (err) {
-            done(err);
-            return;
-          }
-          assert.ok(json.latest);
-          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+          if (err) return done(err);
+
+          assert.ok(json?.latest);
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         });
       });
@@ -79,10 +66,7 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
       // clear the cache
       cache.clear((err) => {
-        if (err) {
-          done(err);
-          return;
-        }
+        if (err) return done(err);
         done();
       });
     });
@@ -91,20 +75,15 @@ describe('callback', () => {
       const cache = new Cache(TMP_DIR);
 
       cache.get<DistTagsJSON>('https://registry.npmjs.org/-/package/npm/dist-tags', (err, json) => {
-        if (err) {
-          done(err);
-          return;
-        }
-        assert.ok(json.latest);
-        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+        if (err) return done(err);
+        assert.ok(json?.latest);
+        assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
         // clear the cache
         cache.clear((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
-          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
+          if (err) return done(err);
+
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
           done();
         });
       });

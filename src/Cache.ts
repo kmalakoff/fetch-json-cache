@@ -3,7 +3,7 @@ import { safeRm } from 'fs-remove-compat';
 import get from './get.ts';
 import getSync from './getSync.ts';
 import hash from './hash.ts';
-import type { CacheOptions, ClearCallback, GetCallback, GetOptions } from './types.ts';
+import type { CacheOptions, ClearCallback, GetCallback, GetOptions, UpdateCallback } from './types.ts';
 import update from './update.ts';
 
 export default class Cache {
@@ -25,27 +25,26 @@ export default class Cache {
     callback = typeof options === 'function' ? options : callback;
     options = typeof options === 'function' ? {} : ((options || {}) as GetOptions);
 
-    function worker(endpoint, options, callback) {
-      options.force ? update.call(this, endpoint, callback) : get.call(this, endpoint, callback);
-    }
+    const worker = (endpoint: string, options: GetOptions, callback: GetCallback<T>) => {
+      options.force ? update.call(this, endpoint, callback as unknown as UpdateCallback<unknown>) : get.call(this, endpoint, callback as unknown as GetCallback<unknown>);
+    };
 
-    if (typeof callback === 'function') return worker.call(this, endpoint, options, callback);
-    return new Promise((resolve, reject) => worker.call(this, endpoint, options, (err, json) => (err ? reject(err) : resolve(json))));
+    if (typeof callback === 'function') return worker(endpoint, options, callback);
+    return new Promise((resolve, reject) => worker(endpoint, options as GetOptions, (err, json) => (err ? reject(err) : resolve(json as T | null))));
   }
 
   getSync<T>(endpoint: string): T | null {
-    return getSync.call(this, endpoint);
+    return getSync.call(this, endpoint) as T | null;
   }
 
   clear(callback: ClearCallback): void;
   clear(): Promise<void>;
   clear(callback?: ClearCallback): void | Promise<void> {
-    function worker(callback) {
-      // ignore errors since it is fine to delete a directory that doesn't exist from a cache standpoint
-      safeRm(this.cachePath, callback.bind(null, null));
-    }
+    const worker = (callback: ClearCallback) => {
+      safeRm(this.cachePath, () => callback());
+    };
 
-    if (typeof callback === 'function') return worker.call(this, callback);
-    return new Promise((resolve, reject) => worker.call(this, (err) => (err ? reject(err) : resolve())));
+    if (typeof callback === 'function') return worker(callback);
+    return new Promise((resolve, reject) => worker((err) => (err ? reject(err) : resolve())));
   }
 }

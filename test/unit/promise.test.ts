@@ -36,14 +36,11 @@ describe('promise', () => {
         .get('https://registry.npmjs.org/-/package/npm/dist-tags')
         .then((json) => {
           assert.ok((json as DistTagsJSON).latest);
-          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
           done();
         })
         .catch((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
         });
     });
 
@@ -59,22 +56,16 @@ describe('promise', () => {
             .get('https://registry.npmjs.org/-/package/npm/dist-tags')
             .then((json) => {
               assert.ok((json as DistTagsJSON).latest);
-              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
               done();
             })
             .catch((err) => {
-              if (err) {
-                done(err);
-                return;
-              }
+              if (err) return done(err);
             });
         })
         .catch((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
         });
     });
 
@@ -90,21 +81,15 @@ describe('promise', () => {
             .get('https://registry.npmjs.org/-/package/npm/dist-tags', { force: true })
             .then((json) => {
               assert.ok((json as DistTagsJSON).latest);
-              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
               done();
             })
             .catch((err) => {
-              if (err) {
-                done(err);
-                return;
-              }
+              if (err) return done(err);
             });
         })
         .catch((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
         });
     });
 
@@ -118,10 +103,7 @@ describe('promise', () => {
           done();
         })
         .catch((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
         });
     });
 
@@ -132,27 +114,21 @@ describe('promise', () => {
         .get('https://registry.npmjs.org/-/package/npm/dist-tags')
         .then((json) => {
           assert.ok((json as DistTagsJSON).latest);
-          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
+          assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), true);
 
           // clear the cache
           cache
             .clear()
             .then(() => {
-              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
+              assert.equal(existsSync(path.join(TMP_DIR, `${cache.options.hash?.('https://registry.npmjs.org/-/package/npm/dist-tags')}.json`)), false);
               done();
             })
             .catch((err) => {
-              if (err) {
-                done(err);
-                return;
-              }
+              if (err) return done(err);
             });
         })
         .catch((err) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
         });
     });
   });

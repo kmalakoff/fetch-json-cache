@@ -7,6 +7,11 @@ export interface CacheOptions {
   hash?: (string: string) => string;
 }
 
+export interface CacheContext {
+  cachePath: string;
+  options: CacheOptions;
+}
+
 export interface GetOptions {
   force?: boolean;
 }

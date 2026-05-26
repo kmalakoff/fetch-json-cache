@@ -15,6 +15,6 @@ export interface CacheContext {
 export interface GetOptions {
   force?: boolean;
 }
-export type GetCallback<T> = (error?: Error, result?: T) => void;
-export type ClearCallback = (error?: Error) => void;
-export type UpdateCallback<T> = (error?: Error, result?: T) => void;
+export type GetCallback<T> = (error?: Error | null, result?: T) => void;
+export type ClearCallback = (error?: Error | null) => void;
+export type UpdateCallback<T> = (error?: Error | null, result?: T) => void;

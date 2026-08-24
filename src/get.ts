@@ -32,7 +32,8 @@ export default function getCache<T>(this: CacheContext, endpoint: string, callba
           if ((err as GetError).code === 'ENOTFOUND' || err.message.indexOf('routines:SSL23_GET_SERVER_HELLO') >= 0) return callback(undefined, record.body);
           return callback(err);
         }
-        if ((res?.headers as GetHeaders).etag === record.headers.etag) return callback(undefined, record.body);
+        const headers = res?.headers as GetHeaders | undefined;
+        if (headers?.etag === record.headers.etag) return callback(undefined, record.body);
         update.call(this, endpoint, (err, json) => {
           err ? callback(err) : callback(undefined, json as T | undefined);
         });

@@ -1,10 +1,11 @@
 import assert from 'assert';
 import Cache from 'fetch-json-cache';
-import existsSync from 'fs-exists-sync';
 import { safeRm } from 'fs-remove-compat';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
 import url from 'url';
+
+import { existsSync } from '../lib/compat.ts';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const TMP_DIR = path.join(path.join(__dirname, '..', '..', '.tmp'));

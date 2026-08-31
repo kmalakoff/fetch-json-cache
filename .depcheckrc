@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "fetch-json-cache"]
+ignores: ["fetch-json-cache", "node-version-use", "ts-dev-stack"]

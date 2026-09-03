@@ -3,13 +3,16 @@ export interface Record<T> {
   body: T;
 }
 
-export interface CacheOptions {
+export interface CacheOptions<TWire = unknown, TStored = TWire> {
   hash?: (string: string) => string;
+  // Applied to every body before it is stored, so the cached shape is the same whichever call wrote it
+  transform?: (body: TWire, endpoint: string) => TStored;
 }
 
+// Internal view: the helpers only need to call transform, not know the caller's types
 export interface CacheContext {
   cachePath: string;
-  options: CacheOptions;
+  options: CacheOptions<unknown, unknown>;
 }
 
 export interface GetOptions {

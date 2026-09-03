@@ -18,7 +18,8 @@ export default function update<T>(this: CacheContext, endpoint: string, callback
       if (err) return callback(err);
 
       try {
-        const body = JSON.parse(res?.content ?? 'null');
+        const parsed = JSON.parse(res?.content ?? 'null');
+        const body = this.options.transform ? this.options.transform(parsed, endpoint) : parsed;
         const record = { headers: res?.headers ?? {}, body } as Record<T>;
         const tempFile = `${fullPath}-${tempSuffix()}`;
 

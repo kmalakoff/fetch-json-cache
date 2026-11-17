@@ -25,8 +25,18 @@ export default function update<T>(this: CacheContext, endpoint: string, callback
 
         const queue = new Queue(1);
         queue.defer((cb) => fs.writeFile(tempFile, JSON.stringify(record), 'utf8', (err) => cb(err)));
-        queue.defer((cb) => rm(fullPath, { force: true }, (err?: NodeJS.ErrnoException | null) => cb(err)));
-        queue.defer((cb) => fs.rename(tempFile, fullPath, (err) => cb(err)));
+        // replace in one rename so a reader never finds the file missing; only Windows may refuse to rename over an existing file
+        queue.defer((cb) =>
+          fs.rename(tempFile, fullPath, (err) => {
+            if (!err) return cb();
+            const code = (err as NodeJS.ErrnoException).code;
+            if (code !== 'EPERM' && code !== 'EEXIST') return cb(err);
+            rm(fullPath, { force: true }, (rmErr?: NodeJS.ErrnoException | null) => {
+              if (rmErr) return cb(rmErr);
+              fs.rename(tempFile, fullPath, (err) => cb(err));
+            });
+          })
+        );
         queue.await((err) => {
           if (!err) return callback(undefined, record.body);
           rm(tempFile, () => callback(err));

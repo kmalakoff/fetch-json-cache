@@ -1,9 +1,10 @@
 # fetch-json-cache
 
 Caches fetched JSON and updates it when the endpoint's ETag changes. If a
-cached record exists, it reuses that record only when the ETag request fails
-with `ENOTFOUND` or the legacy `SSL23_GET_SERVER_HELLO` error. Other errors
-propagate, and `{ force: true }` bypasses this fallback.
+cached record exists and the ETag request fails for any reason (server down,
+host not found, timeout), it returns the cached copy instead of an error; with
+no cached record the error propagates. The ETag request waits 10 seconds at most.
+`{ force: true }` bypasses this fallback.
 
 ```sh
 npm install fetch-json-cache

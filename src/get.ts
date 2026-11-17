@@ -4,15 +4,14 @@ import path from 'path';
 
 import update from './update.ts';
 
-interface GetError {
-  code?: string;
-}
-
 interface GetHeaders {
   etag?: string;
 }
 
 import type { CacheContext, GetCallback } from './types.ts';
+
+// the freshness check is only worth waiting so long for when a good copy is on disk
+const FRESHNESS_TIMEOUT = 10000;
 
 export default function getCache<T>(this: CacheContext, endpoint: string, callback: GetCallback<T>): void {
   const fullPath = path.join(this.cachePath, `${this.options.hash?.(endpoint)}.json`);
@@ -26,12 +25,9 @@ export default function getCache<T>(this: CacheContext, endpoint: string, callba
     // check existing if etag changed and if so, recache
     else {
       const record = JSON.parse(contents.toString());
-      head(endpoint, (err, res) => {
-        // not accessible
-        if (err) {
-          if ((err as GetError).code === 'ENOTFOUND' || err.message.indexOf('routines:SSL23_GET_SERVER_HELLO') >= 0) return callback(undefined, record.body);
-          return callback(err);
-        }
+      head(endpoint, { timeout: FRESHNESS_TIMEOUT }, (err, res) => {
+        // the freshness check failed (unreachable, timed out, reset...): the cached copy is the last good one
+        if (err) return callback(undefined, record.body);
         const headers = res?.headers as GetHeaders | undefined;
         if (headers?.etag === record.headers.etag) return callback(undefined, record.body);
         update.call(this, endpoint, (err, json) => {

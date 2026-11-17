@@ -10,9 +10,10 @@
 <h1>fetch-json-cache</h1></div>
 <div class="tsd-panel tsd-typography"><h1 id="fetch-json-cache" class="tsd-anchor-link">fetch-json-cache<a href="#fetch-json-cache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
 <p>Caches fetched JSON and updates it when the endpoint's ETag changes. If a
-cached record exists, it reuses that record only when the ETag request fails
-with <code>ENOTFOUND</code> or the legacy <code>SSL23_GET_SERVER_HELLO</code> error. Other errors
-propagate, and <code>{ force: true }</code> bypasses this fallback.</p>
+cached record exists and the ETag request fails for any reason (server down,
+host not found, timeout), it returns the cached copy instead of an error; with
+no cached record the error propagates. The ETag request waits 10 seconds at most.
+<code>{ force: true }</code> bypasses this fallback.</p>
 <pre><code class="sh"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">fetch-json-cache</span>
 </code><button type="button">Copy</button></pre>
 

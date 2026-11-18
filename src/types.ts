@@ -4,6 +4,12 @@ export interface Record<T> {
 }
 
 export interface CacheOptions<TWire = unknown, TStored = TWire> {
+  /**
+   * A read-only folder of records written by an earlier run, such as one shipped with a package.
+   * `get` and `getSync` use its record when it was fetched later than the one in `cachePath`.
+   * It is never written and `clear()` never touches it; it is ignored when it is the same folder as `cachePath`.
+   */
+  seedPath?: string;
   hash?: (string: string) => string;
   // Applied to every body before it is stored, so the cached shape is the same whichever call wrote it
   transform?: (body: TWire, endpoint: string) => TStored;

@@ -135,14 +135,8 @@ describe('promise', () => {
   });
 
   describe('unhappy path', () => {
-    it('missing cachePath', (done) => {
-      try {
-        const cache = new Cache(TMP_DIR);
-        assert.ok(!cache);
-      } catch (err) {
-        assert.ok(err);
-        done();
-      }
+    it('missing cachePath', () => {
+      assert.throws(() => new Cache(undefined as unknown as string));
     });
   });
 });

@@ -2,6 +2,12 @@
 
 All notable changes to fetch-json-cache are documented here.
 
+## [1.9.0] - 2026-11-18
+
+### Added
+
+- `seedPath` option: a read-only folder of records. `get` and `getSync` use the record that was fetched later, `cachePath` winning a tie, and `get` still refreshes only into `cachePath`. `clear()` never touches `seedPath`. Without the option nothing changes.
+
 ## [1.8.0]
 
 ### Fixed

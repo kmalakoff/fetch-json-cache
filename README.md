@@ -36,3 +36,5 @@ cache.get(endpoint, function (err, json) {
 ```
 
 Pass a `transform` function in the constructor options to change the parsed JSON before it is stored.
+
+Pass `seedPath` in the constructor options to also read a read-only folder of records, such as one shipped with a package. `get` and `getSync` use whichever of the `cachePath` and `seedPath` records was fetched later (a tie goes to `cachePath`); refreshes are only ever written to `cachePath`, and `clear()` leaves `seedPath` alone.

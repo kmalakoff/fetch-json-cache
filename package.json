@@ -42,6 +42,7 @@
     "get-file-compat": "^2.0.0",
     "mkdirp-classic": "^0.5.2",
     "queue-cb": "^1.0.0",
+    "staged-cache": "^0.1.1",
     "temp-suffix": "^1.0.10"
   },
   "devDependencies": {

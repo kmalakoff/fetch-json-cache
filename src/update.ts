@@ -4,23 +4,10 @@ import { getContent } from 'get-file-compat';
 import mkdirp from 'mkdirp-classic';
 import path from 'path';
 import Queue from 'queue-cb';
+import { renameInto } from 'staged-cache';
 import tempSuffix from 'temp-suffix';
 
 import type { CacheContext, Record, UpdateCallback } from './types.ts';
-
-// Replace in one rename so a reader never finds the file missing. A refused rename (Windows reports EPERM when the
-// destination is locked) is a lost race only if a complete file is at the destination; the destination is never removed.
-function renameInto(from: string, to: string, callback: (err?: Error | null) => void): void {
-  fs.rename(from, to, (err) => {
-    if (!err) return callback();
-    const code = (err as NodeJS.ErrnoException).code;
-    if (code !== 'EPERM' && code !== 'EEXIST' && code !== 'ENOTEMPTY') return callback(err);
-    fs.stat(to, (statErr, stats) => {
-      if (statErr || !stats.isFile()) return callback(err);
-      rm(from, () => callback());
-    });
-  });
-}
 
 export default function update<T>(this: CacheContext, endpoint: string, callback: UpdateCallback<T>): void {
   const fullPath = path.join(this.cachePath, `${this.options.hash?.(endpoint)}.json`);

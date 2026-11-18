@@ -26,6 +26,7 @@ no cached record the error propagates. The ETag request waits 10 seconds at most
 </code><button type="button">Copy</button></pre>
 
 <p>Pass a <code>transform</code> function in the constructor options to change the parsed JSON before it is stored.</p>
+<p>Pass <code>seedPath</code> in the constructor options to also read a read-only folder of records, such as one shipped with a package. <code>get</code> and <code>getSync</code> use whichever of the <code>cachePath</code> and <code>seedPath</code> records was fetched later (a tie goes to <code>cachePath</code>); refreshes are only ever written to <code>cachePath</code>, and <code>clear()</code> leaves <code>seedPath</code> alone.</p>
 </div></div>
 <div class="col-sidebar">
 <div class="page-menu">

@@ -2,6 +2,12 @@
 
 All notable changes to fetch-json-cache are documented here.
 
+## [1.9.1] - 2026-11-18
+
+### Fixed
+
+- A file where the cache folder (or one of its parents) should be now fails `get` right away with an `ENOTDIR` error whose message and `path` name that file. Before, the fetch went ahead and the write failed later with a misleading error.
+
 ## [1.9.0] - 2026-11-18
 
 ### Added

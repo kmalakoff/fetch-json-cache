@@ -7,6 +7,8 @@ import http from 'http';
 import path from 'path';
 import url from 'url';
 
+import { mkdirRecursive } from '../lib/compat.ts';
+
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const TMP_DIR = path.join(__dirname, '..', '..', '.tmp');
 const CHILD = path.join(__dirname, '..', 'lib', 'updateChild.cjs');
@@ -19,10 +21,13 @@ const major = +process.versions.node.split('.')[0];
 (major === 0 ? describe.skip : describe)('update', () => {
   let server: http.Server;
   let endpoint: string;
+  let requests: number;
 
   beforeEach((cb) => {
     safeRm(TMP_DIR, () => {
+      requests = 0;
       server = http.createServer((_req, res) => {
+        requests++;
         res.writeHead(200, { 'content-type': 'application/json', etag: `"${Date.now()}"` });
         res.end(PAYLOAD);
       });
@@ -74,5 +79,51 @@ const major = +process.versions.node.split('.')[0];
       const child = spawn(process.execPath, [CHILD, TMP_DIR, endpoint, '40'], { cwd: ROOT, stdio: 'inherit' });
       child.on('close', onExit);
     }
+  });
+
+  it('a plain file at the cache folder fails with ENOTDIR naming the file and sends no request', (done) => {
+    mkdirRecursive(TMP_DIR);
+    const blocker = path.join(TMP_DIR, 'blocker');
+    fs.writeFileSync(blocker, 'keep');
+    new Cache(blocker).get(endpoint, (err) => {
+      assert.ok(err);
+      assert.equal((err as NodeJS.ErrnoException).code, 'ENOTDIR');
+      assert.equal((err as NodeJS.ErrnoException).syscall, 'mkdir');
+      assert.equal((err as NodeJS.ErrnoException).path, blocker);
+      assert.ok(err.message.indexOf(blocker) >= 0);
+      assert.equal(requests, 0);
+      assert.equal(fs.readFileSync(blocker, 'utf8'), 'keep');
+      done();
+    });
+  });
+
+  it('a plain file at the parent of the cache folder fails with ENOTDIR naming the parent and sends no request', (done) => {
+    mkdirRecursive(TMP_DIR);
+    const blocker = path.join(TMP_DIR, 'blocker');
+    fs.writeFileSync(blocker, 'keep');
+    new Cache(path.join(blocker, 'cache')).get(endpoint, (err) => {
+      assert.ok(err);
+      assert.equal((err as NodeJS.ErrnoException).code, 'ENOTDIR');
+      assert.equal((err as NodeJS.ErrnoException).syscall, 'mkdir');
+      assert.equal((err as NodeJS.ErrnoException).path, blocker);
+      assert.ok(err.message.indexOf(blocker) >= 0);
+      assert.equal(requests, 0);
+      assert.equal(fs.readFileSync(blocker, 'utf8'), 'keep');
+      done();
+    });
+  });
+
+  it('a dangling symlink at the cache folder returns the original error and sends no request', (done) => {
+    mkdirRecursive(TMP_DIR);
+    const link = path.join(TMP_DIR, 'dangling');
+    fs.symlinkSync(path.join(TMP_DIR, 'missing-target'), link, process.platform === 'win32' ? 'junction' : 'file');
+    new Cache(link).get(endpoint, (err) => {
+      assert.ok(err);
+      assert.notEqual((err as NodeJS.ErrnoException).path, path.parse(link).root);
+      assert.equal((err as { cause?: Error }).cause, undefined);
+      assert.equal(err.message.indexOf(' is a file, so the cache folder'), -1);
+      assert.equal(requests, 0);
+      done();
+    });
   });
 });
